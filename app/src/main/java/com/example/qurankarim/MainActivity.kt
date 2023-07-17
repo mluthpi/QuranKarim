@@ -34,6 +34,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.qurankarim.ui.QuranListScreen
 import com.example.qurankarim.ui.theme.QuranKarimTheme
 import kotlinx.coroutines.delay
 
@@ -41,11 +42,10 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            SplashScreen()
-            }
-
+            Navigation()
         }
     }
+}
 
 
 @Composable
@@ -55,9 +55,9 @@ fun Navigation() {
     NavHost(
         navController = navController,
         startDestination = "splash_screen"
-    ){
+    ) {
         composable("splash_screen") {
-//            SplashScreen(navController = navController)
+            SplashScreen(navController = navController)
         }
 
         composable("main_screen") {
@@ -69,26 +69,31 @@ fun Navigation() {
 
             }
         }
+        composable("quran_list_screen") {
+            QuranListScreen()
+        }
     }
 }
 
 @Composable
-fun SplashScreen(){
+fun SplashScreen(navController: NavController) {
 
-    LaunchedEffect(key1 = true){
-        delay(5000L)
-//        navController.navigate("main_screen")
+    LaunchedEffect(key1 = true) {
+        delay(3000L)
+        navController.navigate("quran_list_screen")
     }
 
-    Column(modifier = Modifier.fillMaxSize(),) {
-        Text(text = "My Qur'an",
+    Column(modifier = Modifier.fillMaxSize()) {
+        Text(
+            text = "My Qur'an",
             color = Color.Red,
             fontSize = 32.sp,
             fontStyle = FontStyle.Italic
         )
     }
 
-    Box(modifier = Modifier.fillMaxSize(),
+    Box(
+        modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
         Image(
@@ -96,14 +101,15 @@ fun SplashScreen(){
             contentDescription = "",
             modifier = Modifier.width(500.dp)
         )
-        Box(modifier = Modifier
-            .align(Alignment.Center)
-            .fillMaxWidth()
-            .width(
-                50.dp
-            ),
+        Box(
+            modifier = Modifier
+                .align(Alignment.Center)
+                .fillMaxWidth()
+                .width(
+                    50.dp
+                ),
 
-        )
+            )
         Image(
             painter = painterResource(id = R.drawable.ic_quran_logo),
             contentDescription = "",
@@ -115,6 +121,6 @@ fun SplashScreen(){
 @Preview(showBackground = true)
 @Composable
 fun SplashPreview() {
-    SplashScreen()
+    SplashScreen(rememberNavController())
 }
 
